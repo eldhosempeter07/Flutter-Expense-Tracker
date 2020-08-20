@@ -1,4 +1,9 @@
+import 'package:expense_tracker/model/transaction_data.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+String name = '';
+String amount = '';
 
 class AddItem extends StatelessWidget {
   @override
@@ -23,6 +28,9 @@ class AddItem extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(30.0),
               child: TextField(
+                onChanged: (value) {
+                  name = value;
+                },
 //              autofocus: true,
                 style: TextStyle(fontSize: 20.0),
                 textAlign: TextAlign.center,
@@ -37,6 +45,9 @@ class AddItem extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: TextField(
+                onChanged: (value) {
+                  amount = value;
+                },
 //              autofocus: true,
                 keyboardType: TextInputType.number,
                 style: TextStyle(fontSize: 20.0),
@@ -49,7 +60,12 @@ class AddItem extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: FlatButton(
-                onPressed: () {},
+                onPressed: () {
+                  Provider.of<TransactionData>(context, listen: false)
+                      .addTransaction(name, amount);
+                  print(name);
+                  Navigator.pop(context);
+                },
                 color: Colors.green,
                 textColor: Colors.white,
                 child: Text(

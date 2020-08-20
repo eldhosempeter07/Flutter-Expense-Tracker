@@ -1,27 +1,68 @@
+import 'package:expense_tracker/constants.dart';
+import 'package:expense_tracker/model/transaction_data.dart';
 import 'package:expense_tracker/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TransactionHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.green.shade600,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Center(
-            child: TextWidget(
-              text: ('History'),
-              size: 30.0,
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.brown.shade900,
+      ),
+      body: SafeArea(
+        child: Container(
+          color: Colors.blueGrey.shade800,
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Center(
+                  child: TextWidget(
+                    text:
+                        ('History - ${Provider.of<TransactionData>(context).transaction.length} '),
+                    size: 40.0,
+                  ),
+                ),
+                SizedBox(
+                  height: 30.0,
+                ),
+                Consumer<TransactionData>(
+                  builder: (context, transactionData, child) {
+                    return ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        final transaction = transactionData.transaction[index];
+                        return ListTile(
+                          title: HistoryItems(
+                            item: transactionData.transaction[index].itemName,
+                            amount: transactionData.transaction[index].amount,
+                          ),
+                          trailing: FlatButton(
+                            child: Icon(
+                              Icons.delete,
+                              size: 30.0,
+                              color: Colors.red,
+                            ),
+                            onPressed: () {
+                              Provider.of<TransactionData>(context,
+                                      listen: false)
+                                  .deleteTransaction(transaction);
+                            },
+                          ),
+                        );
+                      },
+                      itemCount: transactionData.transaction.length,
+                    );
+                  },
+                ),
+              ],
             ),
           ),
-          SizedBox(
-            height: 10.0,
-          ),
-          HistoryItems(item: 'Chair', amount: '-500'),
-          HistoryItems(item: 'Books', amount: '+250'),
-          HistoryItems(item: 'Bottles', amount: '+750'),
-        ],
+        ),
       ),
     );
   }
@@ -34,23 +75,21 @@ class HistoryItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: 30.0, top: 10.0, bottom: 15.0),
-      child: Row(
-        children: <Widget>[
-          TextWidget(
-            text: item,
-            size: 25.0,
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: ListTile(
+            title: Text(
+              item,
+              style: kHistoryTextStyle,
+            ),
+            trailing: Text(
+              amount,
+              style: kHistoryTextStyle,
+            ),
           ),
-          SizedBox(
-            width: 50.0,
-          ),
-          TextWidget(
-            text: amount,
-            size: 25.0,
-          ),
-        ],
-      ),
+        )
+      ],
     );
   }
 }

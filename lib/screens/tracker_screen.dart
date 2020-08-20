@@ -38,8 +38,33 @@ class TrackerScreen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Balance(),
+            SizedBox(
+              height: 20.0,
+            ),
+            FlatButton(
+                color: Colors.white,
+                padding: EdgeInsets.only(
+                  left: 50.0,
+                  right: 50.0,
+                  top: 20.0,
+                  bottom: 20.0,
+                ),
+                child: Text(
+                  'History',
+                  style: TextStyle(fontSize: 25.0),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return TransactionHistory();
+                    }),
+                  );
+                }),
+            SizedBox(
+              height: 20.0,
+            ),
             IncomeExpense(),
-            TransactionHistory(),
           ],
         ),
       ),

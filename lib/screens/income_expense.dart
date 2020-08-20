@@ -1,5 +1,7 @@
+import 'package:expense_tracker/model/transaction_data.dart';
 import 'package:expense_tracker/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class IncomeExpense extends StatelessWidget {
   @override
@@ -22,7 +24,7 @@ class IncomeExpense extends StatelessWidget {
                         padding: EdgeInsets.all(8.0),
                         child: Center(
                           child: TextWidget(
-                            text: 'Income \$300.0',
+                            text: 'Income \$ 300',
                             size: 25.0,
                           ),
                         ),
@@ -49,7 +51,8 @@ class IncomeExpense extends StatelessWidget {
                     children: <Widget>[
                       Center(
                         child: TextWidget(
-                          text: 'Expense \$300.0',
+                          text:
+                              'Expense \$ ${Provider.of<TransactionData>(context).getIncome()}',
                           size: 25.0,
                         ),
                       ),
