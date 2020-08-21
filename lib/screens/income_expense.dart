@@ -6,6 +6,23 @@ import 'package:provider/provider.dart';
 class IncomeExpense extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    int incomes = 0;
+    int expenses = 0;
+    for (int i = 0;
+        i < Provider.of<TransactionData>(context).transaction.length;
+        i++) {
+      if (int.parse(
+              Provider.of<TransactionData>(context).transaction[i].amount) >
+          0) {
+        incomes += (int.parse(
+                Provider.of<TransactionData>(context).transaction[i].amount))
+            .abs();
+      } else {
+        expenses += (int.parse(
+                Provider.of<TransactionData>(context).transaction[i].amount))
+            .abs();
+      }
+    }
     return Container(
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 10.0),
@@ -24,7 +41,7 @@ class IncomeExpense extends StatelessWidget {
                         padding: EdgeInsets.all(8.0),
                         child: Center(
                           child: TextWidget(
-                            text: 'Income \$ 300',
+                            text: 'Income \$ $incomes',
                             size: 25.0,
                           ),
                         ),
@@ -51,8 +68,7 @@ class IncomeExpense extends StatelessWidget {
                     children: <Widget>[
                       Center(
                         child: TextWidget(
-                          text:
-                              'Expense \$ ${Provider.of<TransactionData>(context).getIncome()}',
+                          text: 'Expense \$ $expenses',
                           size: 25.0,
                         ),
                       ),

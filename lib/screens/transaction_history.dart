@@ -21,9 +21,18 @@ class TransactionHistory extends StatelessWidget {
               children: <Widget>[
                 Center(
                   child: TextWidget(
-                    text:
-                        ('History - ${Provider.of<TransactionData>(context).transaction.length} '),
+                    text: ('History'),
                     size: 40.0,
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Center(
+                  child: TextWidget(
+                    text:
+                        ('${Provider.of<TransactionData>(context).transaction.length} Transactions'),
+                    size: 30.0,
                   ),
                 ),
                 SizedBox(
@@ -39,7 +48,11 @@ class TransactionHistory extends StatelessWidget {
                         return ListTile(
                           title: HistoryItems(
                             item: transactionData.transaction[index].itemName,
-                            amount: transactionData.transaction[index].amount,
+                            amount: int.parse(transactionData
+                                        .transaction[index].amount) >
+                                    0
+                                ? '+${transactionData.transaction[index].amount}'
+                                : transactionData.transaction[index].amount,
                           ),
                           trailing: FlatButton(
                             child: Icon(

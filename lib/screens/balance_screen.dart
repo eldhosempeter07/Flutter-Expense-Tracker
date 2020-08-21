@@ -1,9 +1,18 @@
+import 'package:expense_tracker/model/transaction_data.dart';
 import 'package:expense_tracker/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Balance extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    int balances = 0;
+    for (int i = 0;
+        i < Provider.of<TransactionData>(context).transaction.length;
+        i++) {
+      balances += (int.parse(
+          Provider.of<TransactionData>(context).transaction[i].amount));
+    }
     return Container(
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 10.0),
@@ -29,7 +38,7 @@ class Balance extends StatelessWidget {
                   ),
                   Center(
                     child: TextWidget(
-                      text: 'Your Balance 500.0',
+                      text: 'Your Balance $balances',
                       size: 35.0,
                     ),
                   ),
